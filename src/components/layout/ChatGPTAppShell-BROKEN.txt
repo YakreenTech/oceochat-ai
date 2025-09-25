@@ -1,0 +1,219 @@
+/* Archived broken file - excluded from build
+"use client"
+
+, useEffect
+import { Button } from '@/components/ui/button'
+import {
+  Plus,
+  Settings,
+  Menu,
+  X,
+  Waves,
+  ChevronDown,
+  MoreHorizontal,
+  Share,
+  User,
+  LogOut
+} from 'lucide-react'
+import { ChatGPTChatInterface } from '@/components/chat/ChatGPTChatInterface'
+import { ConversationItem } from '@/components/sidebar/ConversationItem'
+import { SearchBar } from '@/components/sidebar/SearchBar-ULTRA-MODERN'
+import { useState, useEffect } from 'react'
+import { useAuth } from '@/contexts/AuthContext'
+import { useConversations } from '@/hooks/useConversations'
+
+export function ChatGPTAppShell() {
+  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [showUserMenu, setShowUserMenu] = useState(false)
+
+  const {
+    conversations,
+    currentConversationId,
+    setCurrentConversationId,
+    createConversation,
+    updateConversationTitle,
+    deleteConversation,
+    searchConversations,
+    isLoading
+  const { user, profile, signOut, canChat, incrementChatCount } = useAuth()
+
+  // Track chat count for non-authenticated users
+  useEffect(() => {
+    const handleClickOutside = () => {
+    if (showUserMenu || showAuthPopup) {
+      setShowAuthPopup(false)
+      document.addEventListener('click', handleClickOutside)
+      return () => document.removeEventListener('click', handleClickOutside)
+    }
+*/
+
+export {}
+  }, [showUserMenu, showAuthPopup]);
+
+  return (
+    <div className="flex h-screen bg-white dark:bg-[#343541] text-gray-900 dark:text-gray-100">
+      {/* Sidebar */}
+      <div className={cn(
+        "w-64 transition-all duration-300 ease-in-out overflow-hidden flex-shrink-0 border-r border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-[#202123] shadow-lg",
+        !sidebarOpen && "w-0"
+      )}>
+        <div className="flex flex-col h-full bg-transparent">
+          {/* Header */}
+          <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              Chat History
+            </h2>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </Button>
+          </div>
+
+          {/* New Chat Button */}
+          <div className="p-4">
+            <Button
+              className={cn(
+                "w-full justify-start gap-3 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 text-gray-900 dark:text-gray-100 border border-gray-200 dark:border-gray-600 rounded-lg h-12 font-medium transition-all duration-200 shadow-sm hover:shadow-md",
+                isLoading && "opacity-50 cursor-not-allowed"
+              )}
+              onClick={() => createConversation()}
+              disabled={isLoading}
+            >
+              <Plus className="w-4 h-4" />
+              New chat
+            </Button>
+          </div>
+
+          {/* Search Bar */}
+          <SearchBar onSearch={searchConversations} />
+
+          {/* Conversations */}
+          <div className="flex-1 overflow-y-auto px-4">
+            <div className="space-y-2">
+              {conversations.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    No conversations yet
+                  </p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                    Start a new chat to get started
+                  </p>
+                </div>
+              ) : (
+                conversations.map((conv) => (
+                  <ConversationItem
+                    key={conv.id}
+                    conversation={conv}
+                    isActive={conv.id === currentConversationId}
+                    onClick={() => setCurrentConversationId(conv.id)}
+                    onRename={updateConversationTitle}
+                    onDelete={deleteConversation}
+                  />
+                ))
+              )}
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+            <div className="relative">
+              <Button
+                variant="ghost"
+                className="w-full justify-start gap-3 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 h-12 rounded-lg transition-all duration-200"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setShowUserMenu(false)
+                }}
+              >
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center shadow-sm">
+                  <Waves className="w-4 h-4 text-white" />
+                </div>
+                <span className="flex-1 text-left font-medium">OceoChat User</span>
+                <ChevronDown className="w-4 h-4" />
+              </Button>
+
+              {/* User Menu */}
+              {showUserMenu && (
+                <div className="absolute bottom-full left-0 right-0 mb-2 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg shadow-lg overflow-hidden">
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start gap-3 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-none h-10"
+                  >
+                    <User className="w-4 h-4" />
+                    My account
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start gap-3 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-none h-10"
+                  >
+                    <Settings className="w-4 h-4" />
+                    Settings
+                  </Button>
+                  <div className="border-t border-gray-200 dark:border-gray-600"></div>
+                  <Button
+                    variant="ghost"
+                    className="w-full justify-start gap-3 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-600 rounded-none h-10"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Log out
+                  </Button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col min-w-0 bg-white dark:bg-white">
+        {/* Top Bar */}
+        <div className="flex items-center justify-between p-4 bg-white dark:bg-gray-50 border-b border-gray-200 dark:border-gray-200 shadow-sm">
+          <div className="flex items-center gap-3">
+            {!sidebarOpen && (
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setSidebarOpen(true)}
+                className="text-gray-600 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded-lg transition-colors"
+              >
+                <Menu className="w-5 h-5" />
+              </Button>
+            )}
+            <h1 className="text-xl font-semibold text-gray-900 dark:text-gray-900">
+              OceoChat
+            </h1>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-gray-600 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded-lg transition-colors"
+            >
+              <Share className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-gray-600 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-200 rounded-lg transition-colors"
+            >
+              <MoreHorizontal className="w-4 h-4" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Chat Interface */}
+        <div className="flex-1 overflow-hidden bg-gray-50 dark:bg-gray-50">
+          <ChatGPTChatInterface
+            conversationId={currentConversationId}
+            onNewConversation={createConversation}
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
