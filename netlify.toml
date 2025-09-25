@@ -1,31 +1,19 @@
 [build]
-  base = "oceochat"
   command = "npm run build"
-  publish = "oceochat/.next"
+  publish = ".next"
 
 [build.environment]
   NODE_VERSION = "18"
   NPM_VERSION = "9"
 
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
-[[redirects]]
-  from = "/_next/*"
-  to = "/_next/:splat"
-  status = 200
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
+# Essential for Next.js on Netlify
 [functions]
   node_bundler = "esbuild"
 
-# Next.js specific settings
+# Cache optimization
 [[headers]]
   for = "/_next/static/*"
   [headers.values]

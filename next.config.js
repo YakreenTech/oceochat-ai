@@ -11,17 +11,9 @@ const nextConfig = {
   },
   images: {
     domains: ['localhost'],
-    unoptimized: true, // Better for Netlify
+    unoptimized: true, // Required for Netlify static export
   },
   trailingSlash: true, // Helps with routing
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: '/api/:path*',
-      },
-    ]
-  },
   env: {
     NEXT_PUBLIC_SUPABASE_URL: process.env.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
